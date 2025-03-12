@@ -2,7 +2,6 @@ package com.mth.thailotterynote.ui.composables.tabs
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -72,7 +71,7 @@ fun HomeScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .weight(1f)
-                        .padding(bottom = 100.dp)
+                        .padding(bottom = 80.dp)
                 ) {
                     items(userList.reversed()) { userList ->
                         UserListItem(

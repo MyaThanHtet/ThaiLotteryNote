@@ -91,7 +91,7 @@ fun HistoryScreen(viewModel: HistoryViewModel = hiltViewModel()) {
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .weight(1f)
-                                .padding(bottom = 100.dp)
+                                .padding(bottom = 80.dp)
                         ) {
                             items(data) { data ->
                                 UserHistoryItem(data)
