@@ -45,7 +45,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
@@ -62,6 +65,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Locale
+import androidx.compose.foundation.text.KeyboardActions as KeyboardActions1
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -370,16 +374,14 @@ fun DataEntryFormPreview() {
 
 @Composable
 fun TicketNumberFields(ticketNumbers: MutableList<String>) {
-    //  val focusRequesters = List(ticketNumbers.size) { FocusRequester() }
-
+    val focusRequesters = List(ticketNumbers.size) { FocusRequester() }
+    val focusManager = LocalFocusManager.current
     Column {
         for (i in ticketNumbers.indices) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-
-
                 OutlinedTextField(
                     value = ticketNumbers[i],
                     onValueChange = {
@@ -390,23 +392,22 @@ fun TicketNumberFields(ticketNumbers: MutableList<String>) {
                     label = { Text("Enter Ticket Number ${i + 1}") },
                     modifier = Modifier
                         .weight(1f)
-                    /*.focusRequester(focusRequesters[i])
-                   .onFocusEvent { focusState ->
-                       if (!focusState.hasFocus && ticketNumbers[i].isEmpty()) {
-                           ticketNumbers[i] = ""
-                       }
-                   },
+                        .focusRequester(focusRequesters[i]),
                keyboardOptions = KeyboardOptions(
                    keyboardType = KeyboardType.Number,
                    imeAction = if (i < ticketNumbers.size - 1) ImeAction.Next else ImeAction.Done
                ),
-               keyboardActions = KeyboardActions(
+                    keyboardActions = KeyboardActions1(
                    onNext = {
                        if (i < ticketNumbers.size - 1) {
                            focusRequesters[i + 1].requestFocus()
                        }
-                   }
-               )*/
+                   },
+                        onDone = {
+                            focusManager.clearFocus()
+                        }
+
+                    )
                 )
 
                 if (ticketNumbers.size > 1 && i != 0) {
