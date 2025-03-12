@@ -57,7 +57,7 @@ fun WinnersScreen(viewModel: WinnersViewModel = hiltViewModel()) {
                 .fillMaxSize()
                 .padding(paddingValues)
                 .padding(start = 16.dp, end = 16.dp, bottom = 80.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(0.dp)
         ) {
             val lotteDate = lotteryResult.data?.response?.date
 
@@ -66,7 +66,6 @@ fun WinnersScreen(viewModel: WinnersViewModel = hiltViewModel()) {
                 text = "-- Winner List --",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xFF6A3EA1),
                 modifier = Modifier
 
                     .align(Alignment.CenterHorizontally)
