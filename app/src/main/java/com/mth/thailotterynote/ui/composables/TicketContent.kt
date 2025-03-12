@@ -40,6 +40,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.mth.thailotterynote.R
 import com.mth.thailotterynote.model.User
 import kotlinx.coroutines.delay
+import androidx.core.graphics.createBitmap
 
 @Composable
 fun TicketContent(user: User, onCaptured: (Bitmap) -> Unit) {
@@ -177,7 +178,7 @@ fun TicketContentInternal(user: User) {
 fun captureViewToBitmap(view: View): Bitmap {
     val width = view.width
     val height = view.height
-    val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+    val bitmap = createBitmap(width, height)
     val canvas = android.graphics.Canvas(bitmap)
     view.draw(canvas)
     return bitmap

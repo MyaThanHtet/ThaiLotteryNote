@@ -65,6 +65,7 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
+import java.util.Locale
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -74,6 +75,13 @@ fun DataEntryForm(
     navController: NavHostController,
     viewModel: DataEntryViewModel = hiltViewModel()
 ) {
+    val calendar = Calendar.getInstance()
+    val currentDay = calendar.get(Calendar.DAY_OF_MONTH).toString()
+    val currentMonth =
+        calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH)?.uppercase()
+            ?: "Month"
+    val currentYear = calendar.get(Calendar.YEAR).toString()
+
     var inputError by remember { mutableStateOf<String?>(null) }
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
@@ -83,11 +91,11 @@ fun DataEntryForm(
     var ticketCount by remember { mutableIntStateOf(1) }
     val ticketNumbers = remember { mutableStateListOf("") }
     var dayExpanded by remember { mutableStateOf(false) }
-    var selectedDay by remember { mutableStateOf("Day") }
+    var selectedDay by remember { mutableStateOf(currentDay) }
     var monthExpanded by remember { mutableStateOf(false) }
-    var selectedMonth by remember { mutableStateOf("Month") }
+    var selectedMonth by remember { mutableStateOf(currentMonth) }
     var yearExpanded by remember { mutableStateOf(false) }
-    var selectedYear by remember { mutableStateOf("Year") }
+    var selectedYear by remember { mutableStateOf(currentYear) }
     var userName by remember { mutableStateOf("") }
     var isPaid by remember { mutableStateOf(false) }
     var price by remember { mutableStateOf("") }
@@ -107,9 +115,9 @@ fun DataEntryForm(
                         if (userName.isBlank() ||
                             ticketNumbers.any { it.isBlank() } ||
                             selectedCurrency == "Select Currency" ||
-                            selectedDay == "Day"||
-                            selectedMonth == "Month"||
-                            selectedYear == "Year"||
+                            selectedDay == ""||
+                            selectedMonth == ""||
+                            selectedYear == ""||
                             price.isBlank()
                             ) {
                             inputError = "Please fill in all required fields."
@@ -264,8 +272,9 @@ fun DataEntryForm(
                             expanded = yearExpanded,
                             onDismissRequest = { yearExpanded = false }
                         ) {
-                            val currentYear = Calendar.getInstance().get(Calendar.YEAR)
-                            for (year in currentYear..currentYear + 10) { // Show next 10 years
+                            val currentYears = Calendar.getInstance().get(Calendar.YEAR)
+                            for (year in currentYears..currentYears + 10) {
+                                // Show next 10 years
 
                                 DropdownMenuItem({ Text(year.toString()) }, onClick = {
                                     selectedYear = year.toString()
@@ -406,7 +415,9 @@ fun TicketNumberFields(ticketNumbers: MutableList<String>) {
 
                 if (ticketNumbers.size > 1 && i != 0) {
                     IconButton(onClick = {
-                        ticketNumbers.removeAt(i)
+                        if (i in ticketNumbers.indices) {
+                            ticketNumbers.removeAt(i)
+                        }
                     }) {
                         Icon(Icons.Default.Delete, contentDescription = "Remove Ticket")
                     }

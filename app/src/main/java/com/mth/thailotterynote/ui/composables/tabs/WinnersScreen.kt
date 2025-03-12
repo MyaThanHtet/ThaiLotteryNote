@@ -61,18 +61,20 @@ fun WinnersScreen(viewModel: WinnersViewModel = hiltViewModel()) {
         ) {
             val lotteDate = lotteryResult.data?.response?.date
 
-            Text(
-                text = if (lotteDate != null) convertThaiDateToEnglish(lotteDate) else "",
-                fontSize = 17.sp,
-                fontWeight = FontWeight.Normal,
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-            )
+
             Text(
                 text = "-- Winner List --",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF6A3EA1),
+                modifier = Modifier
+
+                    .align(Alignment.CenterHorizontally)
+            )
+            Text(
+                text = if (lotteDate != null) convertThaiDateToEnglish(lotteDate) else "",
+                fontSize = 17.sp,
+                fontWeight = FontWeight.Normal,
                 modifier = Modifier
                     .padding(bottom = 16.dp)
                     .align(Alignment.CenterHorizontally)
