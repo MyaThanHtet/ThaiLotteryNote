@@ -1,5 +1,8 @@
 package com.mth.thailotterynote.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.mth.thailotterynote.database.dao.DashboardHistoryDao
 import com.mth.thailotterynote.database.dao.UserDao
 import com.mth.thailotterynote.model.DashboardHistory
@@ -73,6 +76,7 @@ class UserRepository @Inject constructor(
         }
     }
 
+
     private suspend fun cleanupDashboardHistoryIfEmpty(date: String) = withContext(Dispatchers.IO) {
         val existingHistory = dashboardHistoryDao.getDashboardHistoryForDate(date).firstOrNull()
         if (existingHistory != null && existingHistory.totalSoldCount == 0) {
@@ -97,5 +101,12 @@ class UserRepository @Inject constructor(
         } catch (e: Exception) {
             NetworkResult.Error(e.localizedMessage ?: "Unknown Error")
         }
+    }
+
+    fun getAllUsersPaged(): Flow<PagingData<User>> {
+        return Pager(
+            config = PagingConfig(pageSize = 20, enablePlaceholders = false),
+            pagingSourceFactory = { userDao.getAllUsersPaged() }
+        ).flow
     }
 }

@@ -29,4 +29,7 @@ class HomeViewModel @Inject constructor(private val repository: UserRepository) 
             repository.updateUser(user)
         }
     }
+
+    //val users: Flow<PagingData<User>> = repository.getAllUsersPaged().cachedIn(viewModelScope)
+
 }

@@ -1,5 +1,6 @@
 package com.mth.thailotterynote.database.dao
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -32,4 +33,7 @@ interface UserDao {
 
     @Query("SELECT * FROM User WHERE lotteryDate = :lotteryDate")
      fun getUsersByLotteryDate(lotteryDate: String): Flow<List<User>>
+
+    @Query("SELECT * FROM User ORDER BY id ASC")
+    fun getAllUsersPaged(): PagingSource<Int, User>
 }

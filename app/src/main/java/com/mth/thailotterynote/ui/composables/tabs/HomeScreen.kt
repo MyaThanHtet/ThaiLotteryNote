@@ -28,6 +28,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
@@ -44,6 +46,8 @@ fun HomeScreen(
     navHostController: NavHostController, viewModel: HomeViewModel = hiltViewModel()
 ) {
     val userList by viewModel.userList.collectAsState(emptyList())
+    //val users: LazyPagingItems<User> = viewModel.users.collectAsLazyPagingItems()
+
     var showETicketDialog by remember { mutableStateOf(false) }
     var selectedUser by remember { mutableStateOf<User?>(null) }
     var editingUser by remember { mutableStateOf<User?>(null) }
@@ -63,19 +67,17 @@ fun HomeScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-
-            if (userList.isEmpty()) {
-                EmptyDataScreen()
-            } else {
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f)
-                        .padding(bottom = 80.dp)
-                ) {
-                    items(userList.reversed()) { userList ->
+           /* LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .padding(bottom = 80.dp)
+            ) {
+                items(users.itemCount) { index ->
+                    val user = users[index]
+                    if (user != null) {
                         UserListItem(
-                            user = userList,
+                            user = user,
                             onDelete = { deletedUser ->
                                 viewModel.deleteUser(deletedUser)
                             },
@@ -83,18 +85,48 @@ fun HomeScreen(
                                 selectedUser = clickedUser
                                 showETicketDialog = true
                             },
-                            onEdit = {
-                                editedUser->
+                            onEdit = { editedUser ->
                                 editingUser = editedUser
                                 showEditDialog = true
                             }
                         )
+                    } else {
+                        EmptyDataScreen()
                     }
-
                 }
+            }*/
+
+             if (userList.isEmpty()) {
+                 EmptyDataScreen()
+             } else {
+                 LazyColumn(
+                     modifier = Modifier
+                         .fillMaxWidth()
+                         .weight(1f)
+                         .padding(bottom = 80.dp)
+                 ) {
+                     items(userList.reversed()) { userList ->
+                         UserListItem(
+                             user = userList,
+                             onDelete = { deletedUser ->
+                                 viewModel.deleteUser(deletedUser)
+                             },
+                             onUserItemClick = { clickedUser ->
+                                 selectedUser = clickedUser
+                                 showETicketDialog = true
+                             },
+                             onEdit = {
+                                 editedUser->
+                                 editingUser = editedUser
+                                 showEditDialog = true
+                             }
+                         )
+                     }
+
+                 }
 
 
-            }
+             }
 
 
         }

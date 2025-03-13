@@ -63,6 +63,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.ui.text.google.fonts)
+    implementation(libs.androidx.paging.compose.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -80,6 +81,7 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)
     ksp(libs.hilt.compiler)
+    ksp(libs.androidx.hilt.compiler)
 
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.lottie.compose)
@@ -92,7 +94,10 @@ dependencies {
     implementation(libs.gson)
 
     implementation (libs.retrofit2.kotlin.coroutines.adapter)
-    implementation(libs.androidx.core.splashscreen) // or latest version
+    implementation(libs.androidx.core.splashscreen)
+
+    implementation(libs.androidx.paging.runtime.ktx)
+    implementation(libs.androidx.room.paging)
 
 
 
